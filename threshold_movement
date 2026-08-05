@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n;
+        cin >> n;
+
+        vector<long long> w(n + 1);
+        for (int i = 1; i <= n; i++)
+            cin >> w[i];
+
+        if (n == 1) {
+            cout << "NO\n";
+            continue;
+        }
+
+        long long low = 0;
+        long long high = 1e18;
+        bool ok = true;
+
+        // Boundary constraints
+        low = max(low, w[2]);
+        high = min(high, w[n - 1]);
+
+        // Interior constraints
+        for (int i = 2; i <= n - 1; i++) {
+            if (w[i - 1] == w[i + 1]) {
+                ok = false;
+                break;
+            }
+
+            low = max(low, min(w[i - 1], w[i + 1]));
+            high = min(high, max(w[i - 1], w[i + 1]));
+        }
+
+        if (ok && high - low >= 2)
+            cout << "YES\n";
+        else
+            cout << "NO\n";
+    }
+}
